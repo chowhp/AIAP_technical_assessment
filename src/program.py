@@ -9,48 +9,48 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 
 def logistic_regression(X_train, X_test, y_train, y_test):
-"""
-Logistic Regression model
-param X_train, y_train: train samples
-param X_test, y_test: test samples
-return: print prediction score base on test samples
-"""
+	"""
+	Logistic Regression model
+	param X_train, y_train: train samples
+	param X_test, y_test: test samples
+	return: print prediction score base on test samples
+	"""
 	log = linear_model.LogisticRegression()
 	log_model = log.fit(X_train, y_train.values.ravel())
 	log_predictions = log.predict(X_test)
 	print('Logistic Regression selected and prediction score is %f\n' % log.score(X_test, y_test))
 
 def decision_tree_classifier(X_train, X_test, y_train, y_test):
-"""
-Decision Tree model
-param X_train, y_train: train samples
-param X_test, y_test: test samples
-return: print prediction score base on test samples
-"""
+	"""
+	Decision Tree model
+	param X_train, y_train: train samples
+	param X_test, y_test: test samples
+	return: print prediction score base on test samples
+	"""
 	dtree = DecisionTreeClassifier(criterion = 'entropy')
 	dtree_model = dtree.fit(X_train,y_train)
 	dtree_predictions = dtree.predict(X_test)	
 	print('Decision Tree Classifier selected and prediction score is %f\n' % dtree.score(X_test, y_test))
 
 def random_forest_classifier(X_train, X_test, y_train, y_test):
-"""
-Random Forest model
-param X_train, y_train: train samples
-param X_test, y_test: test samples
-return: print prediction score base on test samples
-"""
+	"""
+	Random Forest model
+	param X_train, y_train: train samples
+	param X_test, y_test: test samples
+	return: print prediction score base on test samples
+	"""
 	forest = RandomForestClassifier(n_estimators=10, criterion='entropy')
 	forest_model = forest.fit(X_train, y_train.values.ravel())
 	forest_predictions = forest.predict(X_test)
 	print('Random Forest Classifier selected and prediction score is %f\n' % forest.score(X_test, y_test))
 
 def gaussian_nb(X_train, X_test, y_train, y_test):
-"""
-Gaussian Naive Bayes model
-param X_train, y_train: train samples
-param X_test, y_test: test samples
-return: print prediction score base on test samples
-"""
+	"""
+	Gaussian Naive Bayes model
+	param X_train, y_train: train samples
+	param X_test, y_test: test samples
+	return: print prediction score base on test samples
+	"""
 	gaus = GaussianNB()
 	gaus_model = gaus.fit(X_train, y_train.values.ravel())
 	gaus_predictions = gaus.predict(X_test)
@@ -59,12 +59,12 @@ return: print prediction score base on test samples
 
 
 def sample_cleanup(df):
-"""
-Prepare data before spliting into train and test samples
-remove missing values, duplicates, redundant features & consistency check
-param df: input samples 
-return df: samples after cleaning
-"""
+	"""
+	Prepare data before spliting into train and test samples
+	remove missing values, duplicates, redundant features & consistency check
+	param df: input samples 
+	return df: samples after cleaning
+	"""
 	# dropna
 	df.dropna(inplace = True)
 	
@@ -110,12 +110,12 @@ return df: samples after cleaning
 
 
 def create_traintest_sample(df, tsize):
-"""
-Split data into train and test sets base on ratio
-param df: data to be splited
-param tsize: test set ratio
-return X_train, X_test, y_train, y_test: train samples, test samples  
-"""
+	"""
+	Split data into train and test sets base on ratio
+	param df: data to be splited
+	param tsize: test set ratio
+	return X_train, X_test, y_train, y_test: train samples, test samples  
+	"""
 	# get columns name
 	variables = df.columns[1:]
 	target = ['Survive']
@@ -133,17 +133,17 @@ return X_train, X_test, y_train, y_test: train samples, test samples
 	return X_train, X_test, y_train, y_test
 
 def select_traintest_ratio():
-"""
-Train and test sample ratio selection
-Valid keypress input:"1", "2", "3", "4", "5","6"
-"1" => train_test ratio 40%_60%
-"2" => train_test ratio 50%_50%
-"3" => train_test ratio 60%_40%
-"4" => train_test ratio 70%_30%
-"5" => train_test ratio 80%_20%
-"6" => train_test ratio 90%_10%
-Default selection => train_test ratio 80%_20%
-"""
+	"""
+	Train and test sample ratio selection
+	Valid keypress input:"1", "2", "3", "4", "5","6"
+	"1" => train_test ratio 40%_60%
+	"2" => train_test ratio 50%_50%
+	"3" => train_test ratio 60%_40%
+	"4" => train_test ratio 70%_30%
+	"5" => train_test ratio 80%_20%
+	"6" => train_test ratio 90%_10%
+	Default selection => train_test ratio 80%_20%
+	"""
 	#split data to training and test set
 	print()
 	print('Please select train set to test set ratio:')
@@ -151,26 +151,26 @@ Default selection => train_test ratio 80%_20%
 		print(i+1,'-',i*10+40,'% to',60-i*10, '%')
 	value=0 
 	valid_input = ['1', '2', '3', '4', '5','6']
-  	value = input()
-  	tsize =round((((7-int(value))*0.1) if value in valid_input else 0.2),1)
-  	print(100-int(tsize*100),'% to',(int(tsize*100)), '% is selected')
+	value = input()
+	tsize =round((((7-int(value))*0.1) if value in valid_input else 0.2),1)
+	print(100-int(tsize*100),'% to',(int(tsize*100)), '% is selected')
 	print('please proceed to select algorithm')
 	
 	return tsize
 
 
 def main():
-"""
-Retrieve and prepare data from /data/survive.db
-Selection of model for training and testing
-Valid keypress input:"1", "2", "3", "4", "5","6"
-"1" => Logistic Regression model selected with printed prediction secore
-"2" => Gaussian Naive Bayes model selected with printed prediction secore
-"3" => Decision Tree model selected with printed prediction secore
-"4" => Random Forest model selected with printed prediction secore
-"5" => Select train and test ratio
-"6" => Exit program
-"""
+	"""
+	Retrieve and prepare data from /data/survive.db
+	Selection of model for training and testing
+	Valid keypress input:"1", "2", "3", "4", "5","6"
+	"1" => Logistic Regression model selected with printed prediction secore
+	"2" => Gaussian Naive Bayes model selected with printed prediction secore
+	"3" => Decision Tree model selected with printed prediction secore
+	"4" => Random Forest model selected with printed prediction secore
+	"5" => Select train and test ratio
+	"6" => Exit program
+	"""
   	# query survive.db
 	con = sqlite3.connect("./data/survive.db")
 	df = pd.read_sql_query("SELECT * FROM survive", con)
@@ -200,7 +200,7 @@ Valid keypress input:"1", "2", "3", "4", "5","6"
 		elif (value == '4'):
 			random_forest_classifier(X_train, X_test, y_train, y_test)
 		elif (value == '5'):
-			tsize = select_traintest_ratio2()
+			tsize = select_traintest_ratio()
 			X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
 		elif (value == '6'):
 			print("Program ends.")
