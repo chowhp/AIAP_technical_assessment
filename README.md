@@ -81,9 +81,9 @@ d.) F1-score conveys the balance between the precision and the recall.
 
 ## Update
 - Additional method to install the package and recreate its required environment via setup.py 
-- Improve efficiency by replacing for loop in "split_selection" function using list comprehension
+- Improve efficiency by replacing for loop in function using list comprehension
 - Drop multiple columns - [Favorite color, Height & ID] in dataframe to improve coding in 'sample_cleanup' function
-- Add in comments to improve code readability
+- Add in docstrings and comments to help understand functions capabilities and improve overall code readability
 - Rename functions to better reflect its underlying purpose 
 
 ## Execution    
