@@ -79,19 +79,28 @@ c.) Recall [from all the positive classes, how many are predicted correctly]
 d.) F1-score conveys the balance between the precision and the recall.
     Formula: (2 * Precision * Recall) / (Precision + Recall)
 
+## Update
+- Additional method to install the package and recreate its required environment via setup.py 
+- Improve efficiency by replacing for loop in "split_selection" function using list comprehension
+- Drop multiple columns - [Favorite color, Height & ID] in dataframe to improve coding in 'sample_cleanup' function
+- Add in comments to improve code readability
+- Rename functions to better reflect its underlying purpose 
 
 ## Execution    
-run bash shell script 'run.sh' which finds & installs packages listed in requirements.txt
+- run bash shell script 'run.sh' which finds & installs packages listed in requirements.txt
+- Or run 'pip install .' to install the required packages
 
 
 ## dir tree
-chow_hwei_ping_392C
+AIAP_technical_assessment
 ├── src
 │   ├── program.py
+|   ├── __int__.py
 ├── data
 │   ├── survive.db
 ├── eda.ipynb
 ├── run.sh
 ├── requirements.txt
+├── setup.py
 ├── README.md
 
