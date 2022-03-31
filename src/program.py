@@ -9,24 +9,48 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 
 def logistic_regression(X_train, X_test, y_train, y_test):
+"""
+Logistic Regression model
+param X_train, y_train: train samples
+param X_test, y_test: test samples
+return: print prediction score base on test samples
+"""
 	log = linear_model.LogisticRegression()
 	log_model = log.fit(X_train, y_train.values.ravel())
 	log_predictions = log.predict(X_test)
-	print('Logistic Regression slected and prediction score is %f\n' % log.score(X_test, y_test))
+	print('Logistic Regression selected and prediction score is %f\n' % log.score(X_test, y_test))
 
 def decision_tree_classifier(X_train, X_test, y_train, y_test):
+"""
+Decision Tree model
+param X_train, y_train: train samples
+param X_test, y_test: test samples
+return: print prediction score base on test samples
+"""
 	dtree = DecisionTreeClassifier(criterion = 'entropy')
 	dtree_model = dtree.fit(X_train,y_train)
 	dtree_predictions = dtree.predict(X_test)	
 	print('Decision Tree Classifier selected and prediction score is %f\n' % dtree.score(X_test, y_test))
 
 def random_forest_classifier(X_train, X_test, y_train, y_test):
+"""
+Random Forest model
+param X_train, y_train: train samples
+param X_test, y_test: test samples
+return: print prediction score base on test samples
+"""
 	forest = RandomForestClassifier(n_estimators=10, criterion='entropy')
 	forest_model = forest.fit(X_train, y_train.values.ravel())
 	forest_predictions = forest.predict(X_test)
 	print('Random Forest Classifier selected and prediction score is %f\n' % forest.score(X_test, y_test))
 
 def gaussian_nb(X_train, X_test, y_train, y_test):
+"""
+Gaussian Naive Bayes model
+param X_train, y_train: train samples
+param X_test, y_test: test samples
+return: print prediction score base on test samples
+"""
 	gaus = GaussianNB()
 	gaus_model = gaus.fit(X_train, y_train.values.ravel())
 	gaus_predictions = gaus.predict(X_test)
@@ -35,6 +59,12 @@ def gaussian_nb(X_train, X_test, y_train, y_test):
 
 
 def sample_cleanup(df):
+"""
+Prepare data before spliting into train and test samples
+remove missing values, duplicates, redundant features & consistency check
+param df: input samples 
+return df: samples after cleaning
+"""
 	# dropna
 	df.dropna(inplace = True)
 	
@@ -42,10 +72,8 @@ def sample_cleanup(df):
 	df.drop_duplicates(subset = 'ID', keep = 'first', inplace = True)
 
 	# drop features 
-	#df.drop('Diabetes', axis=1, inplace=True)
-	df.drop('Favorite color', axis=1, inplace=True)
-	df.drop('Height', axis=1, inplace=True)
-	df.drop('ID', axis=1, inplace=True)
+	drop_col = ['Favorite color', 'Height', 'ID']
+	df.drop(drop_col, axis=1, inplace=True)
 
 	# check consistency & numeric
 	df.loc[df['Diabetes'] == 'Normal', 'Diabetes'] = '0'
@@ -81,7 +109,13 @@ def sample_cleanup(df):
 	return df
 
 
-def sample_split(df, tsize):
+def create_traintest_sample(df, tsize):
+"""
+Split data into train and test sets base on ratio
+param df: data to be splited
+param tsize: test set ratio
+return X_train, X_test, y_train, y_test: train samples, test samples  
+"""
 	# get columns name
 	variables = df.columns[1:]
 	target = ['Survive']
@@ -98,7 +132,18 @@ def sample_split(df, tsize):
 
 	return X_train, X_test, y_train, y_test
 
-def split_selection():
+def select_traintest_ratio():
+"""
+Train and test sample ratio selection
+Valid keypress input:"1", "2", "3", "4", "5","6"
+"1" => train_test ratio 40%_60%
+"2" => train_test ratio 50%_50%
+"3" => train_test ratio 60%_40%
+"4" => train_test ratio 70%_30%
+"5" => train_test ratio 80%_20%
+"6" => train_test ratio 90%_10%
+Default selection => train_test ratio 80%_20%
+"""
 	#split data to training and test set
 	print()
 	print('Please select train set to test set ratio:')
@@ -115,7 +160,18 @@ def split_selection():
 
 
 def main():
-  # query survive.db
+"""
+Retrieve and prepare data from /data/survive.db
+Selection of model for training and testing
+Valid keypress input:"1", "2", "3", "4", "5","6"
+"1" => Logistic Regression model selected with printed prediction secore
+"2" => Gaussian Naive Bayes model selected with printed prediction secore
+"3" => Decision Tree model selected with printed prediction secore
+"4" => Random Forest model selected with printed prediction secore
+"5" => Select train and test ratio
+"6" => Exit program
+"""
+  	# query survive.db
 	con = sqlite3.connect("./data/survive.db")
 	df = pd.read_sql_query("SELECT * FROM survive", con)
 	
@@ -128,13 +184,13 @@ def main():
 	print("2. GaussianNB")
 	print("3. Decision Tree Classifier")
 	print("4. Random Forest Classifier")
-	print("5. Train set selction")
+	print("5. Train & Test ratio selection")
 	print("6. END program")
 	value = 0
 	tsize = 0.2
 	while(value != '6'):
 		value = input()
-		X_train, X_test, y_train, y_test = sample_split(df,tsize)
+		X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
 		if (value=='1'):
 			logistic_regression(X_train, X_test, y_train, y_test)
 		elif (value == '2'):
@@ -144,8 +200,8 @@ def main():
 		elif (value == '4'):
 			random_forest_classifier(X_train, X_test, y_train, y_test)
 		elif (value == '5'):
-			tsize = split_selection()
-			X_train, X_test, y_train, y_test = sample_split(df,tsize)
+			tsize = select_traintest_ratio2()
+			X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
 		elif (value == '6'):
 			print("Program ends.")
 		else:
