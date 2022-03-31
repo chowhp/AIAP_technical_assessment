@@ -105,30 +105,11 @@ def split_selection():
 	for i in range(6):
 		print(i+1,'-',i*10+40,'% to',60-i*10, '%')
 	value=0 
-	check = 1
-	if(check):
-		value = input()
-		if (value =='1'):
-			tsize = 0.60
-		elif (value =='2'): 
-			tsize = 0.50
-		elif (value =='3'):
-			tsize = 0.40
-		elif (value =='4'): 
-			tsize = 0.30
-		elif (value =='5'): 
-			tsize = 0.20
-		elif (value =='6'): 
-			tsize = 0.10
-		else: 
-			tsize = 0.20
-			check = 0
-    
-		if(check):
-			print(int(100-tsize*100),'% to',int(tsize*100), '% is selected')
-			print('please proceed to select algorithm')
-		else:
-			print('Default train set(80%) to test set(20%) is selected')
+	valid_input = ['1', '2', '3', '4', '5','6']
+  	value = input()
+  	tsize =round((((7-int(value))*0.1) if value in valid_input else 0.2),1)
+  	print(100-int(tsize*100),'% to',(int(tsize*100)), '% is selected')
+	print('please proceed to select algorithm')
 	
 	return tsize
 
