@@ -61,7 +61,7 @@ def gaussian_nb(X_train, X_test, y_train, y_test):
 def sample_cleanup(df):
 	"""
 	Prepare data before spliting into train and test samples
-	remove missing values, duplicates, redundant features & consistency check
+	- remove missing values, duplicates, redundant features & consistency check
 	param df: input samples 
 	return df: samples after cleaning
 	"""
@@ -111,7 +111,7 @@ def sample_cleanup(df):
 
 def create_traintest_sample(df, tsize):
 	"""
-	Split data into train and test sets base on ratio
+	Split data into train and test sample base on test set ratio
 	param df: data to be splited
 	param tsize: test set ratio
 	return X_train, X_test, y_train, y_test: train samples, test samples  
@@ -131,6 +131,7 @@ def create_traintest_sample(df, tsize):
 	X_train, X_test, y_train, y_test = train_test_split(scaled_df, y, test_size=tsize)
 
 	return X_train, X_test, y_train, y_test
+
 
 def select_traintest_ratio():
 	"""
@@ -154,9 +155,25 @@ def select_traintest_ratio():
 	value = input()
 	tsize =round((((7-int(value))*0.1) if value in valid_input else 0.2),1)
 	print(100-int(tsize*100),'% to',(int(tsize*100)), '% is selected')
-	print('please proceed to select algorithm')
+	print('Please proceed to select algorithm')
 	
 	return tsize
+
+
+def print_page(ratio):
+	"""
+	Print selection menu for user to enter their choice
+	pram ratio: test set ratio  
+	"""
+	print()
+	print('Train to Test ratio is:',int(100-ratio*100),'% to',int(ratio*100),'%')
+	print("Please select the algorithm:")
+	print("1. Logistic Regression")
+	print("2. GaussianNB")
+	print("3. Decision Tree Classifier")
+	print("4. Random Forest Classifier")
+	print("5. Train & Test ratio selection")
+	print("6. END program")
 
 
 def main():
@@ -171,26 +188,20 @@ def main():
 	"5" => Select train and test ratio
 	"6" => Exit program
 	"""
-  	# query survive.db
+ 	# query survive.db
 	con = sqlite3.connect("./data/survive.db")
 	df = pd.read_sql_query("SELECT * FROM survive", con)
 	
 	# clean up data
 	df = sample_cleanup(df)
 	
-	print()
-	print("Please select the algorithm (default train/test is 80% to 20%):")
-	print("1. Logistic Regression")
-	print("2. GaussianNB")
-	print("3. Decision Tree Classifier")
-	print("4. Random Forest Classifier")
-	print("5. Train & Test ratio selection")
-	print("6. END program")
 	value = 0
 	tsize = 0.2
 	while(value != '6'):
+		print_page(tsize)
 		value = input()
 		X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
+		print()
 		if (value=='1'):
 			logistic_regression(X_train, X_test, y_train, y_test)
 		elif (value == '2'):
@@ -204,6 +215,7 @@ def main():
 			X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
 		elif (value == '6'):
 			print("Program ends.")
+			break;
 		else:
 			print("Invalid selection")
 
