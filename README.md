@@ -83,7 +83,7 @@ d.) F1-score conveys the balance between the precision and the recall.
 - Additional method to install the package and recreate its required environment via setup.py 
 - Improve computation efficiency by replacing for loop in function using list comprehension
 - Drop multiple columns - [Favorite color, Height & ID] in dataframe
-- Add in docstrings and comments to help understand functions capabilities and improve overall code readability
+- Add in docstrings and comments to help describe functions capabilities and improve overall code readability
 - Rename functions to better reflect its underlying purpose 
 
 ## Execution    
