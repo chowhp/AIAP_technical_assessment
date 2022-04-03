@@ -60,8 +60,7 @@ def gaussian_nb(X_train, X_test, y_train, y_test):
 
 def sample_cleanup(df):
 	"""
-	Prepare data before spliting into train and test samples
-	- remove missing values, duplicates, redundant features & consistency check
+	Prepare data - remove missing values, duplicates, redundant features & consistency check
 	param df: input samples 
 	return df: samples after cleaning
 	"""
@@ -162,11 +161,11 @@ def select_traintest_ratio():
 
 def print_page(ratio):
 	"""
-	Print selection menu for user to enter their choice
-	pram ratio: test set ratio  
+	Print menu for user to select model for training and testing 
+	pram ratio: test sample ratio  
 	"""
 	print()
-	print('Train to Test ratio is:',int(100-ratio*100),'% to',int(ratio*100),'%')
+	print('Train sample to test sample ratio is:',int(100-ratio*100),'% to',int(ratio*100),'%')
 	print("Please select the algorithm:")
 	print("1. Logistic Regression")
 	print("2. GaussianNB")
