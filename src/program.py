@@ -127,7 +127,7 @@ def create_traintest_sample(df, tsize):
     
 	# split data to train & test 
 	y = df[target]
-	X_train, X_test, y_train, y_test = train_test_split(scaled_df, y, test_size=tsize)
+	X_train, X_test, y_train, y_test = train_test_split(scaled_df, y, test_size=tsize, stratify = y)
 
 	return X_train, X_test, y_train, y_test
 
