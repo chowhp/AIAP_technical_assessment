@@ -80,11 +80,11 @@ d.) F1-score conveys the balance between the precision and the recall.
     Formula: (2 * Precision * Recall) / (Precision + Recall)
 
 ## Update
-- Additional method to install the package and recreate its required environment via setup.py 
+- Setup.py to install packages 
 - Improve computation efficiency by replacing for loop in function using list comprehension
 - Drop multiple columns - [Favorite color, Height & ID] in dataframe
 - Add in docstrings and comments to help describe functions capabilities and improve overall code readability
-- Rename functions to better reflect its underlying purpose 
+- Rename functions to better reflect the underlying purpose 
 
 ## Execution    
 - run bash shell script 'run.sh' which finds & installs packages listed in requirements.txt
