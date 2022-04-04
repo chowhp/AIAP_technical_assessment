@@ -146,7 +146,7 @@ def select_traintest_ratio():
 	"""
 	#split data to training and test set
 	print()
-	print('Please select train set to test set ratio:')
+	print('Please select train sample to test sample ratio:')
 	for i in range(6):
 		print(i+1,'-',i*10+40,'% to',60-i*10, '%')
 	value=0 
