@@ -2,60 +2,67 @@ import pandas as pd
 import sys
 import sqlite3
 from matplotlib import pyplot as plt
-from sklearn import datasets, linear_model, preprocessing
+from sklearn import datasets, preprocessing
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression	
+import numpy as np
+
 
 def logistic_regression(X_train, X_test, y_train, y_test):
 	"""
 	Logistic Regression model
 	param X_train, y_train: train samples
 	param X_test, y_test: test samples
-	return: print prediction score base on test samples
+	return: print precision, recall and f1 
 	"""
-	log = linear_model.LogisticRegression()
-	log_model = log.fit(X_train, y_train.values.ravel())
-	log_predictions = log.predict(X_test)
-	print('Logistic Regression selected and prediction score is %f\n' % log.score(X_test, y_test))
+	log = LogisticRegression()
+	log_recall = cross_val_score(log, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
+	log_precision = cross_val_score(log, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
+	log_f1 = cross_val_score(log, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
+	print('LogisticRegression model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(log_precision.mean(), log_recall.mean(), log_f1.mean())) 
+	
 
 def decision_tree_classifier(X_train, X_test, y_train, y_test):
 	"""
 	Decision Tree model
 	param X_train, y_train: train samples
 	param X_test, y_test: test samples
-	return: print prediction score base on test samples
+	return: print precision, recall and f1 
 	"""
 	dtree = DecisionTreeClassifier(criterion = 'entropy')
-	dtree_model = dtree.fit(X_train,y_train)
-	dtree_predictions = dtree.predict(X_test)	
-	print('Decision Tree Classifier selected and prediction score is %f\n' % dtree.score(X_test, y_test))
-
+	dtree_recall = cross_val_score(dtree, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
+	dtree_precision = cross_val_score(dtree, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
+	dtree_f1 = cross_val_score(dtree, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
+	print('DecisionTreeClassifier model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(dtree_precision.mean(), dtree_recall.mean(), dtree_f1.mean())) 
+	
 def random_forest_classifier(X_train, X_test, y_train, y_test):
 	"""
 	Random Forest model
 	param X_train, y_train: train samples
 	param X_test, y_test: test samples
-	return: print prediction score base on test samples
+	return: print precision, recall and f1 
 	"""
 	forest = RandomForestClassifier(n_estimators=10, criterion='entropy')
-	forest_model = forest.fit(X_train, y_train.values.ravel())
-	forest_predictions = forest.predict(X_test)
-	print('Random Forest Classifier selected and prediction score is %f\n' % forest.score(X_test, y_test))
+	forest_recall = cross_val_score(forest, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
+	forest_precision = cross_val_score(forest, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
+	forest_f1 = cross_val_score(forest, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
+	print('RandomForestClassifier model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(forest_precision.mean(), forest_recall.mean(), forest_f1.mean())) 
 
 def gaussian_nb(X_train, X_test, y_train, y_test):
 	"""
 	Gaussian Naive Bayes model
 	param X_train, y_train: train samples
 	param X_test, y_test: test samples
-	return: print prediction score base on test samples
+	return: print precision, recall and f1 
 	"""
 	gaus = GaussianNB()
-	gaus_model = gaus.fit(X_train, y_train.values.ravel())
-	gaus_predictions = gaus.predict(X_test)
-	print('GaussianNB selected and prediction score is %f\n' % gaus.score(X_test, y_test))
-
+	gaus_recall = cross_val_score(gaus, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
+	gaus_precision = cross_val_score(gaus, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
+	gaus_f1 = cross_val_score(gaus, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
+	print('GaussianNB model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(gaus_precision.mean(), gaus_recall.mean(), gaus_f1.mean())) 
 
 
 def sample_cleanup(df):
