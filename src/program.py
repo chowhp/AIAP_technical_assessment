@@ -13,7 +13,7 @@ import numpy as np
 
 def model(X_train, X_test, y_train, y_test, val):
 	"""
-	4 models to be selected: LogisticRegression, Gaussian Naive Bayes model, DecisionTree & RandomForest
+	Models to be trained with 20-fold CV
 	param X_train, y_train: train samples
 	param X_test, y_test: test samples
 	return: print precision, recall and f1 
@@ -34,7 +34,7 @@ def model(X_train, X_test, y_train, y_test, val):
 	algo_recall = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
 	algo_precision = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
 	algo_f1 = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
-	print('{} model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(name, algo_precision.mean(), algo_recall.mean(), algo_f1.mean())) 
+	print('{} model with 20-fold CV has precision: {}, recall: {}, and f1: {}'.format(name, algo_precision.mean(), algo_recall.mean(), algo_f1.mean())) 
 
 
 def sample_cleanup(df):
@@ -159,10 +159,10 @@ def main():
 	Retrieve and prepare data from /data/survive.db
 	Selection of model for training and testing
 	Valid keypress input:"1", "2", "3", "4", "5","6"
-	"1" => Logistic Regression model selected with printed prediction secore
-	"2" => Gaussian Naive Bayes model selected with printed prediction secore
-	"3" => Decision Tree model selected with printed prediction secore
-	"4" => Random Forest model selected with printed prediction secore
+	"1" => Logistic Regression model selected
+	"2" => Gaussian Naive Bayes model selected
+	"3" => Decision Tree model selected
+	"4" => Random Forest model selected
 	"5" => Select train and test ratio
 	"6" => Exit program
 	"""
