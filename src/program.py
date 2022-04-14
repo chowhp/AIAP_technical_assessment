@@ -4,7 +4,7 @@ import sqlite3
 from matplotlib import pyplot as plt
 from sklearn import datasets, preprocessing
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression	
@@ -31,10 +31,9 @@ def model(X_train, X_test, y_train, y_test, val):
 		algo = RandomForestClassifier(n_estimators=10, criterion='entropy')
 		name = 'RandomForestClassifier'	
 	
-	algo_recall = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
-	algo_precision = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
-	algo_f1 = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
-	print('{} model with 20-fold CV has precision: {}, recall: {}, and f1: {}'.format(name, algo_precision.mean(), algo_recall.mean(), algo_f1.mean())) 
+	score = ['precision','recall','f1']
+	algo_val = cross_validate(algo, X_train, y_train.values.ravel(), cv = 20, scoring = score)
+	print('{} model with 20-fold cv has precision: {}, recall: {} and f1: {}'.format(name, algo_val['test_precision'].mean(), algo_val['test_recall'].mean(), algo_val['test_f1'].mean()))
 
 
 def sample_cleanup(df):
