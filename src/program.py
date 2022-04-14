@@ -11,58 +11,30 @@ from sklearn.linear_model import LogisticRegression
 import numpy as np
 
 
-def logistic_regression(X_train, X_test, y_train, y_test):
+def model(X_train, X_test, y_train, y_test, val):
 	"""
-	Logistic Regression model
+	4 models to be selected: LogisticRegression, Gaussian Naive Bayes model, DecisionTree & RandomForest
 	param X_train, y_train: train samples
 	param X_test, y_test: test samples
 	return: print precision, recall and f1 
 	"""
-	log = LogisticRegression()
-	log_recall = cross_val_score(log, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
-	log_precision = cross_val_score(log, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
-	log_f1 = cross_val_score(log, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
-	print('LogisticRegression model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(log_precision.mean(), log_recall.mean(), log_f1.mean())) 
+	if (val == '1'):
+		algo = LogisticRegression()
+		name = 'LogisticRegression'	
+	elif (val == '2'):
+		algo = GaussianNB()
+		name = 'GaussianNB'	
+	elif (val=='3'):
+		algo = DecisionTreeClassifier(criterion = 'entropy')
+		name = 'DecisionTreeClassifier'	
+	elif (val == '4'):
+		algo = RandomForestClassifier(n_estimators=10, criterion='entropy')
+		name = 'RandomForestClassifier'	
 	
-
-def decision_tree_classifier(X_train, X_test, y_train, y_test):
-	"""
-	Decision Tree model
-	param X_train, y_train: train samples
-	param X_test, y_test: test samples
-	return: print precision, recall and f1 
-	"""
-	dtree = DecisionTreeClassifier(criterion = 'entropy')
-	dtree_recall = cross_val_score(dtree, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
-	dtree_precision = cross_val_score(dtree, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
-	dtree_f1 = cross_val_score(dtree, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
-	print('DecisionTreeClassifier model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(dtree_precision.mean(), dtree_recall.mean(), dtree_f1.mean())) 
-	
-def random_forest_classifier(X_train, X_test, y_train, y_test):
-	"""
-	Random Forest model
-	param X_train, y_train: train samples
-	param X_test, y_test: test samples
-	return: print precision, recall and f1 
-	"""
-	forest = RandomForestClassifier(n_estimators=10, criterion='entropy')
-	forest_recall = cross_val_score(forest, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
-	forest_precision = cross_val_score(forest, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
-	forest_f1 = cross_val_score(forest, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
-	print('RandomForestClassifier model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(forest_precision.mean(), forest_recall.mean(), forest_f1.mean())) 
-
-def gaussian_nb(X_train, X_test, y_train, y_test):
-	"""
-	Gaussian Naive Bayes model
-	param X_train, y_train: train samples
-	param X_test, y_test: test samples
-	return: print precision, recall and f1 
-	"""
-	gaus = GaussianNB()
-	gaus_recall = cross_val_score(gaus, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
-	gaus_precision = cross_val_score(gaus, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
-	gaus_f1 = cross_val_score(gaus, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
-	print('GaussianNB model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(gaus_precision.mean(), gaus_recall.mean(), gaus_f1.mean())) 
+	algo_recall = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'recall')
+	algo_precision = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'precision')
+	algo_f1 = cross_val_score(algo, X_train, y_train.values.ravel(), cv = 20, scoring = 'f1')
+	print('{} model with 20-fold cv has precision: {}, recall: {}, and f1: {}'.format(name, algo_precision.mean(), algo_recall.mean(), algo_f1.mean())) 
 
 
 def sample_cleanup(df):
@@ -208,14 +180,8 @@ def main():
 		value = input()
 		X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
 		print()
-		if (value=='1'):
-			logistic_regression(X_train, X_test, y_train, y_test)
-		elif (value == '2'):
-			gaussian_nb(X_train, X_test, y_train, y_test)
-		elif (value == '3'):
-			decision_tree_classifier(X_train, X_test, y_train, y_test)
-		elif (value == '4'):
-			random_forest_classifier(X_train, X_test, y_train, y_test)
+		if ((value=='1') or (value =='2') or (value =='3') or (value == '4')):
+			model(X_train, X_test, y_train, y_test, value)
 		elif (value == '5'):
 			tsize = select_traintest_ratio()
 			X_train, X_test, y_train, y_test = create_traintest_sample(df,tsize)
