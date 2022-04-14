@@ -86,6 +86,9 @@ d.) F1-score conveys the balance between the precision and the recall.
 - Add in docstrings and comments to help describe functions capabilities and improve overall code readability
 - Rename functions to better reflect the underlying purpose 
 
+- 20-fold cross validation training on all algorithms
+- Compute precision, recall and f1 values  
+
 ## Execution    
 - run bash shell script 'run.sh' which finds & installs packages listed in requirements.txt
 - Or run 'pip install .' to install the required packages
