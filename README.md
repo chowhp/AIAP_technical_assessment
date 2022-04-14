@@ -86,7 +86,7 @@ d.) F1-score conveys the balance between the precision and the recall.
 - Add in docstrings and comments to help describe functions capabilities and improve overall code readability
 - Rename functions to better reflect the underlying purpose 
 
-- 20-fold cross validation training on all algorithms
+- Apply 20-fold cross validation on data samples
 - Compute precision, recall and f1 values  
 
 ## Execution    
